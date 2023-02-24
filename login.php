@@ -1,8 +1,7 @@
 <?php 
 require 'db.php';
-require 'server.php';
 
-if (!empty($_POST['login'])){
+if (isset($_POST['login'])){
     $email = $_POST['email'];
     $password = $_POST['password'];
     $password_hash = md5($password);
@@ -15,7 +14,15 @@ if (!empty($_POST['login'])){
             if(mysqli_num_rows($query_run) == 0){
                 echo 'Invalid User Credentials.';
             }else{
-                
+                $row = mysqli_fetch_array($query_run);
+                $_SESSION['firstname'] = $row['firstname'];
+                $_SESSION['lastname'] = $row['lastname'];
+                $_SESSION['email'] = $row['email'];
+                $_SESSION['phone_number'] = $row['phone_number'];
+                $_SESSION['id'] = $row['id'];
+
+                header('Location: '.$script_name);
+
             }
         }
         
